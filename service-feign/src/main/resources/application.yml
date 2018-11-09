@@ -7,6 +7,17 @@ server:
 spring:
   application:
     name: service-feign
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 15000ms
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
+    database: 0
 feign:
   hystrix:
     enabled: true

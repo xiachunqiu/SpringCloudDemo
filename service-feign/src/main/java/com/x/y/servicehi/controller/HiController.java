@@ -4,7 +4,11 @@ import com.x.y.servicehi.service.SchedualServiceHi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @RestController
 public class HiController {
@@ -15,8 +19,17 @@ public class HiController {
         this.schedualServiceHi = schedualServiceHi;
     }
 
+    @GetMapping(value = "/setUserName")
+    public String setUserName(HttpServletRequest request, @RequestParam(value = "name") String name) {
+        HttpSession session = request.getSession();
+        session.setAttribute("username", name);
+        return "成功";
+    }
+
     @GetMapping(value = "/hi")
-    public String sayHi(@RequestParam String name) {
-        return schedualServiceHi.sayHiFromClientOne(name);
+    public String sayHi(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("username");
+        return schedualServiceHi.sayHiFromClientOne(username);
     }
 }
